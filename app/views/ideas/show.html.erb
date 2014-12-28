@@ -1,0 +1,32 @@
+<div class="row">
+  <div class="col-md-9">
+    <%= image_tag(@idea.picture_url, width: '100%') if @idea.picture.present? %>
+  </div>
+
+  <div class="col-md-3">
+    <br/>
+    <p>
+      <b>Name: </b><%= @idea.name %>
+      <% if current_user == @idea.user %>
+          <%= link_to "<i class='glyphicon glyphicon-pencil'></i>".html_safe, edit_idea_path(@idea) %>
+          <%= link_to "<i class='glyphicon glyphicon-trash text-danger'></i>".html_safe, @idea, data: { confirm: 'Are you sure?' }, method: :delete %>
+      <% end %>
+    </p>
+    <p><b>Description: </b><%= @idea.description %></p>
+  </div>
+</div>
+
+<h3>Comments</h3>
+<% @comments.each do |comment| %>
+    <div>
+      <strong><%= comment.user_name %></strong>
+      <% if current_user == comment.user %>
+          <%= link_to "<i class='glyphicon glyphicon-pencil'></i>".html_safe, edit_comment_path(comment) %>
+          <%= link_to "<i class='glyphicon glyphicon-trash text-danger'></i>".html_safe, comment_path(comment), method: :delete, data: { confirm: 'Are you sure?' } %>
+      <% end %>
+      <br />
+      <p><%= comment.body %></p>
+    </div>
+<% end %>
+<%= render 'comments/form' %>
+
